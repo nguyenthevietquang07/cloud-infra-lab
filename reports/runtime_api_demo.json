@@ -1,0 +1,75 @@
+{
+  "base_url": "http://127.0.0.1:8010",
+  "checks": {
+    "event_normalization": true,
+    "health_endpoint": true,
+    "job_creation": true,
+    "job_fetch": true
+  },
+  "claim_boundary": "Runtime demo validates local API behavior only; it is not production deployment or real traffic evidence.",
+  "project": "cloud-infra-lab",
+  "responses": {
+    "created_job": {
+      "created_at": "2026-07-11T13:00:02.112070+00:00",
+      "error": null,
+      "id": "c8b44367-5689-4b65-b801-9726e2dda369",
+      "kind": "arrangement_export",
+      "payload": {
+        "kind": "arrangement export",
+        "payload": {
+          "accepted": true,
+          "attributes": {
+            "environment": "local",
+            "stage": "stage_2"
+          },
+          "event_type": "deployment",
+          "source": "runtime demo"
+        },
+        "source": "runtime_demo"
+      },
+      "status": "queued",
+      "updated_at": "2026-07-11T13:00:02.112070+00:00"
+    },
+    "event": {
+      "accepted": true,
+      "attributes": {
+        "environment": "local",
+        "stage": "stage_2"
+      },
+      "event_type": "deployment",
+      "source": "runtime demo"
+    },
+    "fetched_job": {
+      "created_at": "2026-07-11T13:00:02.112070+00:00",
+      "error": null,
+      "id": "c8b44367-5689-4b65-b801-9726e2dda369",
+      "kind": "arrangement_export",
+      "payload": {
+        "kind": "arrangement export",
+        "payload": {
+          "accepted": true,
+          "attributes": {
+            "environment": "local",
+            "stage": "stage_2"
+          },
+          "event_type": "deployment",
+          "source": "runtime demo"
+        },
+        "source": "runtime_demo"
+      },
+      "status": "queued",
+      "updated_at": "2026-07-11T13:00:02.112070+00:00"
+    },
+    "health": {
+      "checks": {
+        "api": "ok",
+        "cache": "configured",
+        "database": "configured"
+      },
+      "service": "cloud-infra-lab",
+      "status": "ok",
+      "timestamp": "2026-07-11T13:00:02.101033+00:00"
+    }
+  },
+  "stage": "stage_2_runtime_api_demo"
+}

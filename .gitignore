@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+postgres_data/
+.terraform/
+*.tfstate
+*.tfstate.*
+reports/*
+!reports/.gitkeep
+!reports/demo_run.json
+!reports/runtime_api_demo.json

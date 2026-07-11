@@ -1,0 +1,41 @@
+{
+  "claim_boundary": "Local demo validates service logic and job flow; it is not production traffic evidence.",
+  "health": {
+    "checks": {
+      "api": "ok",
+      "cache": "configured",
+      "database": "configured"
+    },
+    "service": "cloud-infra-lab",
+    "status": "ok",
+    "timestamp": "2026-07-11T12:49:03.370955+00:00"
+  },
+  "job": {
+    "created_at": "2026-07-11T12:49:03.370955+00:00",
+    "error": null,
+    "id": "a89d0681-4009-4409-9e52-237e7fd9355a",
+    "kind": "event_processing",
+    "payload": {
+      "accepted": true,
+      "attributes": {
+        "commit": "local-demo",
+        "environment": "dev"
+      },
+      "event_type": "deployment",
+      "source": "ci"
+    },
+    "status": "succeeded",
+    "updated_at": "2026-07-11T12:49:03.370955+00:00"
+  },
+  "normalized_event": {
+    "accepted": true,
+    "attributes": {
+      "commit": "local-demo",
+      "environment": "dev"
+    },
+    "event_type": "deployment",
+    "source": "ci"
+  },
+  "project": "cloud-infra-lab",
+  "stage": "local_service_demo"
+}
