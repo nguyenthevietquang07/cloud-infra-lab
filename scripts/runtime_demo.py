@@ -24,16 +24,34 @@ def request_json(method: str, path: str, payload: dict[str, object] | None = Non
         return json.loads(response.read().decode("utf-8"))
 
 
-def wait_for_health(timeout_seconds: float = 10.0) -> dict[str, object]:
+def wait_for_health(server: subprocess.Popen[str], timeout_seconds: float = 10.0) -> dict[str, object]:
     deadline = time.monotonic() + timeout_seconds
     last_error: Exception | None = None
     while time.monotonic() < deadline:
+        if server.poll() is not None:
+            _, stderr = server.communicate(timeout=1)
+            raise RuntimeError(f"API server exited before becoming healthy: {stderr.strip()}")
         try:
             return request_json("GET", "/health")
         except (urllib.error.URLError, TimeoutError, ConnectionError) as error:
             last_error = error
             time.sleep(0.25)
     raise RuntimeError(f"API did not become healthy: {last_error}")
+
+
+def stable_health(response: dict[str, object]) -> dict[str, object]:
+    stable = dict(response)
+    if "timestamp" in stable:
+        stable["timestamp"] = "<timestamp>"
+    return stable
+
+
+def stable_job(response: dict[str, object]) -> dict[str, object]:
+    stable = dict(response)
+    for field in ("id", "created_at", "updated_at"):
+        if field in stable:
+            stable[field] = f"<{field}>"
+    return stable
 
 
 def run_runtime_demo() -> dict[str, object]:
@@ -56,7 +74,7 @@ def run_runtime_demo() -> dict[str, object]:
     )
 
     try:
-        health = wait_for_health()
+        health = wait_for_health(server)
         event = request_json(
             "POST",
             "/events",
@@ -84,10 +102,10 @@ def run_runtime_demo() -> dict[str, object]:
                 "job_fetch": fetched_job["id"] == created_job["id"],
             },
             "responses": {
-                "health": health,
+                "health": stable_health(health),
                 "event": event,
-                "created_job": created_job,
-                "fetched_job": fetched_job,
+                "created_job": stable_job(created_job),
+                "fetched_job": stable_job(fetched_job),
             },
             "claim_boundary": (
                 "Runtime demo validates local API behavior only; it is not "

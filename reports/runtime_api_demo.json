@@ -10,9 +10,9 @@
   "project": "cloud-infra-lab",
   "responses": {
     "created_job": {
-      "created_at": "2026-07-11T13:16:49.661005+00:00",
+      "created_at": "<created_at>",
       "error": null,
-      "id": "df92f512-1d45-4571-bc01-8b4bb9ec047d",
+      "id": "<id>",
       "kind": "arrangement_export",
       "payload": {
         "kind": "arrangement export",
@@ -28,7 +28,7 @@
         "source": "runtime_demo"
       },
       "status": "queued",
-      "updated_at": "2026-07-11T13:16:49.661005+00:00"
+      "updated_at": "<updated_at>"
     },
     "event": {
       "accepted": true,
@@ -40,9 +40,9 @@
       "source": "runtime demo"
     },
     "fetched_job": {
-      "created_at": "2026-07-11T13:16:49.661005+00:00",
+      "created_at": "<created_at>",
       "error": null,
-      "id": "df92f512-1d45-4571-bc01-8b4bb9ec047d",
+      "id": "<id>",
       "kind": "arrangement_export",
       "payload": {
         "kind": "arrangement export",
@@ -58,7 +58,7 @@
         "source": "runtime_demo"
       },
       "status": "queued",
-      "updated_at": "2026-07-11T13:16:49.661005+00:00"
+      "updated_at": "<updated_at>"
     },
     "health": {
       "checks": {
@@ -68,7 +68,7 @@
       },
       "service": "cloud-infra-lab",
       "status": "ok",
-      "timestamp": "2026-07-11T13:16:49.637937+00:00"
+      "timestamp": "<timestamp>"
     }
   },
   "stage": "stage_2_runtime_api_demo"
