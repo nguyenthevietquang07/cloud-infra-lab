@@ -1,6 +1,7 @@
 import unittest
 
-from app.jobs import InMemoryJobStore, serialize_job
+from app.job_store import InMemoryJobStore
+from app.jobs import serialize_job
 from app.service import build_health_payload, normalize_event
 
 

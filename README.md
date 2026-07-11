@@ -13,6 +13,7 @@ testing, observability habits, and deployment thinking.
 
 - Python API service with FastAPI-compatible entrypoint
 - Typed request/response schemas with Pydantic
+- Job storage boundary with in-memory and SQLite implementations
 - Postgres schema for request/audit records
 - Redis-style cache boundary
 - Docker Compose for local service, database, and cache

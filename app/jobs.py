@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from uuid import uuid4
 
@@ -19,43 +19,30 @@ class Job:
     error: str | None = None
 
 
-@dataclass
-class InMemoryJobStore:
-    jobs: dict[str, Job] = field(default_factory=dict)
+def create_job_record(kind: str, payload: dict[str, object]) -> Job:
+    now = _utc_now()
+    return Job(
+        id=str(uuid4()),
+        kind=_normalize_kind(kind),
+        status="queued",
+        payload=payload,
+        created_at=now,
+        updated_at=now,
+    )
 
-    def create(self, kind: str, payload: dict[str, object]) -> Job:
-        now = _utc_now()
-        job = Job(
-            id=str(uuid4()),
-            kind=_normalize_kind(kind),
-            status="queued",
-            payload=payload,
-            created_at=now,
-            updated_at=now,
-        )
-        self.jobs[job.id] = job
-        return job
 
-    def get(self, job_id: str) -> Job | None:
-        return self.jobs.get(job_id)
-
-    def transition(self, job_id: str, status: str, error: str | None = None) -> Job:
-        if status not in VALID_JOB_STATES:
-            raise ValueError(f"Invalid job status: {status}")
-        existing = self.jobs.get(job_id)
-        if existing is None:
-            raise KeyError(f"Unknown job id: {job_id}")
-        updated = Job(
-            id=existing.id,
-            kind=existing.kind,
-            status=status,
-            payload=existing.payload,
-            created_at=existing.created_at,
-            updated_at=_utc_now(),
-            error=error,
-        )
-        self.jobs[job_id] = updated
-        return updated
+def transition_job_record(job: Job, status: str, error: str | None = None) -> Job:
+    if status not in VALID_JOB_STATES:
+        raise ValueError(f"Invalid job status: {status}")
+    return Job(
+        id=job.id,
+        kind=job.kind,
+        status=status,
+        payload=job.payload,
+        created_at=job.created_at,
+        updated_at=_utc_now(),
+        error=error,
+    )
 
 
 def serialize_job(job: Job) -> dict[str, object]:

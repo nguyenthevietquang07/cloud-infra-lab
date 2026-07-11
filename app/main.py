@@ -3,7 +3,8 @@ from __future__ import annotations
 from fastapi import FastAPI
 from fastapi import HTTPException
 
-from .jobs import InMemoryJobStore, serialize_job
+from .job_store import InMemoryJobStore
+from .jobs import serialize_job
 from .schemas import EventPayload, EventResponse, HealthResponse, JobCreateRequest, JobResponse
 from .service import build_health_payload, normalize_event
 
