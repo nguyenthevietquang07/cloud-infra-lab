@@ -22,6 +22,45 @@ testing, observability habits, and deployment thinking.
 - Standard-library tests for business logic
 - GitHub Actions CI workflow
 
+## Tech Stack
+
+| Layer | Tools |
+|---|---|
+| API | Python, FastAPI, Uvicorn, Pydantic |
+| Data | SQLite boundary, Postgres schema, Redis-style cache boundary |
+| Infrastructure | Docker, Docker Compose, Terraform skeleton |
+| Quality | unittest, runtime API demo, load-test script, GitHub Actions |
+| Operations | health checks, runbook, structured report artifacts |
+
+## Demo Flow
+
+```mermaid
+flowchart LR
+    A["Run runtime demo"] --> B["Start FastAPI on 127.0.0.1:8010"]
+    B --> C["GET /health"]
+    C --> D["POST /events"]
+    D --> E["POST /jobs"]
+    E --> F["GET /jobs/{job_id}"]
+    F --> G["Write reports/runtime_api_demo.json"]
+    G --> H["CI reruns tests and demo"]
+```
+
+## Service Boundary
+
+```mermaid
+flowchart TB
+    Client["Client or demo script"] --> API["FastAPI service"]
+    API --> Schemas["Pydantic schemas"]
+    API --> Jobs["Job store boundary"]
+    Jobs --> Memory["In-memory store"]
+    Jobs --> SQLite["SQLite store"]
+    API --> Events["Event normalization"]
+    API --> Health["Health checks"]
+    Compose["Docker Compose"] --> Postgres["Postgres schema"]
+    Compose --> Redis["Redis cache boundary"]
+    Terraform["Terraform skeleton"] --> Cloud["Future cloud deployment"]
+```
+
 ## Quickstart
 
 ```bash
