@@ -1,0 +1,36 @@
+{
+  "claim_boundary": "This report measures local API processing of public GitHub workflow metadata; it is not evidence of production traffic or hosted reliability.",
+  "data_source": {
+    "provider": "GitHub REST API",
+    "source_note": "Public workflow-run records processed as operational events.",
+    "url": "https://api.github.com/repos/nguyenthevietquang07/cloud-infra-lab/actions/runs?per_page=5"
+  },
+  "measurements": {
+    "event_ingest_latency": {
+      "count": 2.0,
+      "max_ms": 16.6326,
+      "mean_ms": 14.6652,
+      "p50_ms": 12.6978,
+      "p95_ms": 16.6326
+    },
+    "job_create_latency": {
+      "count": 2.0,
+      "max_ms": 14.2016,
+      "mean_ms": 9.813,
+      "p50_ms": 5.4244,
+      "p95_ms": 14.2016
+    },
+    "job_fetch_latency": {
+      "count": 2.0,
+      "max_ms": 13.561,
+      "mean_ms": 8.4729,
+      "p50_ms": 3.3848,
+      "p95_ms": 13.561
+    }
+  },
+  "operation_count": 6,
+  "passion_project_note": "Built to practice production-style observability and job-processing flows with real CI/CD operations data before deploying paid infrastructure.",
+  "pipeline": "real_ops_event_pipeline",
+  "processed_runs": 2,
+  "project": "cloud-infra-lab"
+}

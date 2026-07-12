@@ -9,6 +9,10 @@ This project is a resume-safe way to demonstrate infrastructure and operations
 skills without claiming production ownership. It focuses on reproducible setup,
 testing, observability habits, and deployment thinking.
 
+This is a passion project because I like the unglamorous parts that make real
+software usable: health checks, job boundaries, operational reports, CI/CD
+signals, and runbooks that make a service explainable under pressure.
+
 ## Architecture
 
 - Python API service with FastAPI-compatible entrypoint
@@ -36,13 +40,13 @@ testing, observability habits, and deployment thinking.
 
 ```mermaid
 flowchart LR
-    A["Run runtime demo"] --> B["Start FastAPI on 127.0.0.1:8010"]
-    B --> C["GET /health"]
-    C --> D["POST /events"]
-    D --> E["POST /jobs"]
-    E --> F["GET /jobs/{job_id}"]
-    F --> G["Write reports/runtime_api_demo.json"]
-    G --> H["CI reruns tests and demo"]
+    A["Fetch GitHub Actions runs"] --> B["Start FastAPI on 127.0.0.1:8010"]
+    B --> C["POST /events"]
+    C --> D["POST /jobs"]
+    D --> E["GET /jobs/{job_id}"]
+    E --> F["Measure endpoint latency"]
+    F --> G["Write reports/real_ops_pipeline.json"]
+    G --> H["CI reruns core tests and runtime demo"]
 ```
 
 ## Service Boundary
@@ -61,6 +65,29 @@ flowchart TB
     Terraform["Terraform skeleton"] --> Cloud["Future cloud deployment"]
 ```
 
+## Real Ops Pipeline
+
+Run the real-data operations pipeline:
+
+```bash
+python scripts/real_ops_pipeline.py --owner nguyenthevietquang07 --repo cloud-infra-lab --limit 5
+```
+
+Latest measured report: `reports/real_ops_pipeline.json`.
+
+| Measurement | Value |
+|---|---:|
+| Source | GitHub Actions workflow runs |
+| Workflow runs processed | 2 |
+| API operations measured | 6 |
+| Event ingest mean latency | 14.6652 ms |
+| Job create mean latency | 9.8130 ms |
+| Job fetch mean latency | 8.4729 ms |
+| Event ingest p95 latency | 16.6326 ms |
+
+These measurements validate local API processing of public CI/CD metadata. They
+do not claim hosted uptime, production traffic, or client load.
+
 ## Quickstart
 
 ```bash
@@ -71,6 +98,7 @@ With dependencies installed:
 
 ```bash
 python scripts/runtime_demo.py
+python scripts/real_ops_pipeline.py --owner nguyenthevietquang07 --repo cloud-infra-lab --limit 5
 docker compose up --build
 python scripts/load_test.py --url http://localhost:8000/health --requests 25
 ```
@@ -82,7 +110,8 @@ and writes `reports/runtime_api_demo.json`.
 ## Resume-safe claim
 
 Built a cloud infrastructure lab with a containerized API, Postgres/Redis local
-stack, health-check endpoints, job/status workflow, load-test script, CI tests,
-Terraform planning skeleton, and runbook documentation.
+stack, health-check endpoints, job/status workflow, real GitHub Actions
+operations-data ingestion, latency measurement reports, CI tests, Terraform
+planning skeleton, and runbook documentation.
 
 Do not claim this handled real production users unless it is deployed and measured.

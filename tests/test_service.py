@@ -2,6 +2,7 @@ import unittest
 
 from app.job_store import InMemoryJobStore
 from app.jobs import serialize_job
+from app.ops_pipeline import build_ops_pipeline_report, workflow_run_to_event
 from app.service import build_health_payload, normalize_event
 
 
@@ -37,6 +38,35 @@ class ServiceTests(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             store.transition(job.id, "maybe")
+
+    def test_workflow_run_maps_to_operational_event(self):
+        event = workflow_run_to_event(
+            {
+                "id": 123,
+                "name": "ci",
+                "head_branch": "main",
+                "status": "completed",
+                "conclusion": "success",
+                "repository": {"full_name": "demo/repo"},
+            }
+        )
+
+        self.assertEqual(event.event_type, "github_actions_completed")
+        self.assertEqual(event.source, "demo/repo")
+        self.assertEqual(event.attributes["conclusion"], "success")
+
+    def test_ops_pipeline_report_contains_latency_measurements(self):
+        report = build_ops_pipeline_report(
+            source_url="fixture://demo/repo",
+            processed_runs=2,
+            event_latencies_ms=[1.0, 2.0],
+            job_latencies_ms=[2.0, 3.0],
+            fetch_job_latencies_ms=[3.0, 4.0],
+        )
+
+        self.assertEqual(report["processed_runs"], 2)
+        self.assertEqual(report["operation_count"], 6)
+        self.assertEqual(report["measurements"]["event_ingest_latency"]["p95_ms"], 2.0)
 
 
 if __name__ == "__main__":
