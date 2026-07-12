@@ -1,30 +1,29 @@
 # Cloud Infrastructure Lab
 
-Hands-on backend/platform lab for a small API service with local infrastructure,
-health checks, caching, operations notes, CI, and runbook-style QA.
+[![CI](https://github.com/nguyenthevietquang07/cloud-infra-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/nguyenthevietquang07/cloud-infra-lab/actions/workflows/ci.yml)
 
-## Why this exists
+Backend/platform engineering lab for a small operations API with health checks,
+job workflows, local persistence boundaries, real CI/CD metadata ingestion,
+latency measurement, Docker Compose, Terraform planning, runbooks, and CI.
 
-This project is a resume-safe way to demonstrate infrastructure and operations
-skills without claiming production ownership. It focuses on reproducible setup,
-testing, observability habits, and deployment thinking.
+## Why This Project Exists
 
-This is a passion project because I like the unglamorous parts that make real
-software usable: health checks, job boundaries, operational reports, CI/CD
-signals, and runbooks that make a service explainable under pressure.
+This project demonstrates the operational side of backend engineering: the
+parts that make a service understandable, testable, and maintainable after the
+happy path works. It is built around reproducible setup, clear API boundaries,
+measured behavior, and documentation that another engineer could use.
 
-## Architecture
+## What It Demonstrates
 
 - Python API service with FastAPI-compatible entrypoint
-- Typed request/response schemas with Pydantic
+- Typed request and response schemas with Pydantic
 - Job storage boundary with in-memory and SQLite implementations
-- Postgres schema for request/audit records
+- Event normalization for public GitHub Actions workflow metadata
+- Postgres schema for request and audit records
 - Redis-style cache boundary
 - Docker Compose for local service, database, and cache
-- In-memory job/status workflow for async processing patterns
-- Terraform skeleton for cloud planning
-- Standard-library tests for business logic
-- GitHub Actions CI workflow
+- Terraform skeleton for future cloud deployment planning
+- Runtime demo, load-test script, runbook, and GitHub Actions CI
 
 ## Tech Stack
 
@@ -34,7 +33,7 @@ signals, and runbooks that make a service explainable under pressure.
 | Data | SQLite boundary, Postgres schema, Redis-style cache boundary |
 | Infrastructure | Docker, Docker Compose, Terraform skeleton |
 | Quality | unittest, runtime API demo, load-test script, GitHub Actions |
-| Operations | health checks, runbook, structured report artifacts |
+| Operations | health checks, runbook, structured JSON report artifacts |
 
 ## Demo Flow
 
@@ -49,7 +48,7 @@ flowchart LR
     G --> H["CI reruns core tests and runtime demo"]
 ```
 
-## Service Boundary
+## Architecture
 
 ```mermaid
 flowchart TB
@@ -65,7 +64,7 @@ flowchart TB
     Terraform["Terraform skeleton"] --> Cloud["Future cloud deployment"]
 ```
 
-## Real Ops Pipeline
+## Measured Evidence
 
 Run the real-data operations pipeline:
 
@@ -85,33 +84,49 @@ Latest measured report: `reports/real_ops_pipeline.json`.
 | Job fetch mean latency | 8.4729 ms |
 | Event ingest p95 latency | 16.6326 ms |
 
-These measurements validate local API processing of public CI/CD metadata. They
-do not claim hosted uptime, production traffic, or client load.
+These measurements validate local API processing of public CI/CD metadata. The
+next evidence step is a deployed environment with saved monitoring data for
+uptime, production traffic, and client-load measurements.
 
 ## Quickstart
+
+Run the test suite:
 
 ```bash
 python -m unittest discover -s tests
 ```
 
-With dependencies installed:
+Run the local API demo and data pipeline:
 
 ```bash
 python scripts/runtime_demo.py
 python scripts/real_ops_pipeline.py --owner nguyenthevietquang07 --repo cloud-infra-lab --limit 5
+```
+
+Run with local infrastructure:
+
+```bash
 docker compose up --build
 python scripts/load_test.py --url http://localhost:8000/health --requests 25
 ```
 
-`scripts/runtime_demo.py` starts the FastAPI service locally on
-`127.0.0.1:8010`, calls `/health`, `/events`, `/jobs`, fetches the created job,
-and writes `reports/runtime_api_demo.json`.
+`scripts/runtime_demo.py` starts the service on `127.0.0.1:8010`, calls
+`/health`, `/events`, and `/jobs`, fetches the created job, and writes
+`reports/runtime_api_demo.json`.
 
-## Resume-safe claim
+## Documentation
+
+- `docs/runbook.md`: operational runbook and troubleshooting notes
+- `docs/real_data_pipeline.md`: source, measurement method, and claim boundary
+- `docs/agile_backlog.md`: prioritized backlog and delivery plan
+
+## Portfolio Positioning
 
 Built a cloud infrastructure lab with a containerized API, Postgres/Redis local
 stack, health-check endpoints, job/status workflow, real GitHub Actions
 operations-data ingestion, latency measurement reports, CI tests, Terraform
-planning skeleton, and runbook documentation.
+planning, and runbook documentation.
 
-Do not claim this handled real production users unless it is deployed and measured.
+Current scope: local, reproducible platform lab. Production-user, uptime, and
+hosted-traffic claims require a deployed environment and saved monitoring
+evidence.
