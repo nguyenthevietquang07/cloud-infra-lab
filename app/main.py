@@ -8,12 +8,14 @@ from fastapi import HTTPException
 
 from .job_store import build_job_store
 from .jobs import serialize_job
+from .observability import RequestIdMiddleware
 from .schemas import EventPayload, EventResponse, HealthResponse, JobCreateRequest, JobResponse, JobStatusResponse
 from .security import require_api_key
 from .service import build_health_payload, normalize_event
 from .status_cache import build_status_cache
 
 app = FastAPI(title="Cloud Infrastructure Lab", version="0.1.0")
+app.add_middleware(RequestIdMiddleware)
 job_store = build_job_store(os.getenv("DATABASE_URL"))
 status_cache = build_status_cache(os.getenv("REDIS_URL"))
 

@@ -14,3 +14,4 @@ reports/*
 !reports/docker_smoke.json
 !reports/security_checklist.json
 !reports/dependency_audit.json
+!reports/observability_demo.json

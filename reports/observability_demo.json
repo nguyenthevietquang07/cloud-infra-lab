@@ -1,0 +1,32 @@
+{
+  "checks": {
+    "health_request_id_echoed": true,
+    "http_status_logged": true,
+    "job_request_id_echoed": true,
+    "no_sensitive_payload_logged": true,
+    "structured_json_logs": true
+  },
+  "claim_boundary": "Observability demo verifies local request IDs and structured access logs. It is not evidence of hosted log retention, alerting, or production tracing.",
+  "log_count": 2,
+  "passed": true,
+  "project": "cloud-infra-lab",
+  "sample_logs": [
+    {
+      "duration_ms": 7.0425,
+      "event": "http_request",
+      "method": "GET",
+      "path": "/health",
+      "request_id": "demo-request-1",
+      "status_code": 200
+    },
+    {
+      "duration_ms": 3.2892,
+      "event": "http_request",
+      "method": "POST",
+      "path": "/jobs",
+      "request_id": "demo-request-2",
+      "status_code": 200
+    }
+  ],
+  "stage": "observability_demo"
+}

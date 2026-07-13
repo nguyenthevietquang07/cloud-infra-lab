@@ -24,7 +24,7 @@
     }
   },
   "claim_boundary": "Security checklist verifies a staging baseline for this portfolio API. It is not a penetration test, compliance audit, or production threat model.",
-  "generated_at": "2026-07-13T07:19:47.599611+00:00",
+  "generated_at": "2026-07-13T07:30:47.407966+00:00",
   "passed": true,
   "project": "cloud-infra-lab",
   "stage": "security_checklist"

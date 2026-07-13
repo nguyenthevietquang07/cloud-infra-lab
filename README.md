@@ -20,6 +20,7 @@ measured behavior, and documentation that another engineer could use.
 - Job storage boundary with in-memory and SQLite implementations
 - Redis-backed job status cache boundary
 - Optional API-key guard for staging deployments
+- Request IDs and structured JSON access logs
 - Event normalization for public GitHub Actions workflow metadata
 - Postgres schema for request and audit records
 - Redis-style cache boundary
@@ -34,8 +35,8 @@ measured behavior, and documentation that another engineer could use.
 | API | Python, FastAPI, Uvicorn, Pydantic |
 | Data | SQLite boundary, Postgres schema, Redis-style cache boundary |
 | Infrastructure | Docker, Docker Compose, Terraform skeleton |
-| Quality | unittest, runtime API demo, security audit, dependency audit, load-test script, GitHub Actions |
-| Operations | health checks, runbook, structured JSON report artifacts |
+| Quality | unittest, runtime API demo, observability demo, security audit, dependency audit, load-test script, GitHub Actions |
+| Operations | health checks, request IDs, structured JSON logs, runbook, JSON report artifacts |
 
 ## Demo Flow
 
@@ -104,6 +105,12 @@ Run the test suite:
 python -m unittest discover -s tests
 ```
 
+Run the observability demo:
+
+```bash
+python scripts/observability_demo.py
+```
+
 Run the security and dependency checks:
 
 ```bash
@@ -134,6 +141,10 @@ API health endpoint, creates a job, confirms Redis-backed status caching,
 restarts the API container, fetches the same job back from Postgres and Redis,
 writes `reports/docker_smoke.json`, and tears the stack down.
 
+The API returns an `X-Request-ID` response header and emits structured JSON
+access logs with request ID, method, path, status code, and duration. The local
+proof is saved in `reports/observability_demo.json`.
+
 ## Documentation
 
 - `docs/runbook.md`: operational runbook and troubleshooting notes
@@ -146,8 +157,8 @@ writes `reports/docker_smoke.json`, and tears the stack down.
 Built a cloud infrastructure lab with a containerized API, Postgres/Redis local
 stack, health-check endpoints, job/status workflow, real GitHub Actions
 operations-data ingestion, latency measurement reports, optional API-key
-guarding, CI security/dependency checks, Terraform planning, and runbook
-documentation.
+guarding, request-scoped structured logging, CI security/dependency checks,
+Terraform planning, and runbook documentation.
 
 Current scope: local, reproducible platform lab. Production-user, uptime, and
 hosted-traffic claims require a deployed environment and saved monitoring
