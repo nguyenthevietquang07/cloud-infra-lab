@@ -11,10 +11,9 @@
   "claim_boundary": "Docker smoke verifies local Compose wiring and Postgres-backed job persistence only; it is not hosted uptime or production load evidence.",
   "cleanup": {
     "command": "docker compose down -v",
-    "returncode": 0,
-    "stderr": " Container cloud-infra-lab-api-1  Stopping\n Container cloud-infra-lab-api-1  Stopped\n Container cloud-infra-lab-api-1  Removing\n Container cloud-infra-lab-api-1  Removed\n Container cloud-infra-lab-redis-1  Stopping\n Container cloud-infra-lab-postgres-1  Stopping\n Container cloud-infra-lab-postgres-1  Stopped\n Container cloud-infra-lab-postgres-1  Removing\n Container cloud-infra-lab-postgres-1  Removed\n Container cloud-infra-lab-redis-1  Stopped\n Container cloud-infra-lab-redis-1  Removing\n Container cloud-infra-lab-redis-1  Removed\n Network cloud-infra-lab_default  Removing\n Volume cloud-infra-lab_postgres_data  Removing\n Volume cloud-infra-lab_postgres_data  Removed\n Network cloud-infra-lab_default  Removed\n"
+    "returncode": 0
   },
-  "created_job_id": "012c82e3-324c-4dd1-bd07-6c9bd98d881b",
+  "created_job_id": "<created_job_id>",
   "passed": true,
   "persisted_status": "queued",
   "project": "cloud-infra-lab",

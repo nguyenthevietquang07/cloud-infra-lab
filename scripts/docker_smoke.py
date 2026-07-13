@@ -87,7 +87,7 @@ def run_docker_smoke(keep_running: bool = False) -> dict[str, object]:
         report.update(
             {
                 "checks": checks,
-                "created_job_id": created_job["id"],
+                "created_job_id": "<created_job_id>",
                 "persisted_status": fetched_job["status"],
                 "passed": all(checks.values()),
             }
@@ -99,7 +99,6 @@ def run_docker_smoke(keep_running: bool = False) -> dict[str, object]:
             report["cleanup"] = {
                 "command": "docker compose down -v",
                 "returncode": down.returncode,
-                "stderr": down.stderr[-1000:],
             }
 
 
