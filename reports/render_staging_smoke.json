@@ -1,0 +1,39 @@
+{
+  "base_url": "https://cloud-infra-lab-api.onrender.com",
+  "checks": {
+    "event_normalized": true,
+    "health_ok": true,
+    "job_created": true,
+    "job_persisted": true,
+    "job_status_cached": true,
+    "latency_measurements_recorded": true,
+    "postgres_configured": true,
+    "redis_available": true
+  },
+  "claim_boundary": "This report verifies one deployed Render staging instance and its managed Postgres/Key Value wiring. It is not uptime, scale, or production-user evidence.",
+  "measurements": [
+    {
+      "latency_ms": 771.399,
+      "name": "health"
+    },
+    {
+      "latency_ms": 679.314,
+      "name": "event_ingest"
+    },
+    {
+      "latency_ms": 354.382,
+      "name": "job_create"
+    },
+    {
+      "latency_ms": 338.306,
+      "name": "job_fetch"
+    },
+    {
+      "latency_ms": 305.184,
+      "name": "job_status"
+    }
+  ],
+  "passed": true,
+  "project": "cloud-infra-lab",
+  "stage": "render_staging_smoke"
+}

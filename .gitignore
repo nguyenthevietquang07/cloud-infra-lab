@@ -15,3 +15,5 @@ reports/*
 !reports/security_checklist.json
 !reports/dependency_audit.json
 !reports/observability_demo.json
+!reports/render_staging_smoke.json
+!reports/render_load_test.json

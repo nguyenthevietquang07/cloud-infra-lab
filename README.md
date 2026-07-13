@@ -91,8 +91,25 @@ Latest measured report: `reports/real_ops_pipeline.json`.
 | Event ingest p95 latency | 18.1050 ms |
 
 These measurements validate local API processing of public CI/CD metadata. The
-next evidence step is a deployed environment with saved monitoring data for
-uptime, production traffic, and client-load measurements.
+staging evidence below verifies the deployed environment separately.
+
+Latest Render staging verification: `reports/render_staging_smoke.json` and
+`reports/render_load_test.json`.
+
+| Staging measurement | Value |
+|---|---:|
+| Hosted service | `https://cloud-infra-lab-api.onrender.com` |
+| Smoke checks passed | 8 / 8 |
+| Load-test requests | 50 |
+| Load-test concurrency | 5 |
+| Load-test success rate | 100% |
+| Load-test p95 latency | 586.6600 ms |
+| Load-test error rate | 0.0000 |
+
+These staging measurements validate a Render-hosted service, managed Postgres
+persistence, managed Key Value status caching, protected API endpoints, and a
+bounded request burst. They are not uptime, production-user, or sustained-load
+claims.
 
 ## Quickstart
 
@@ -152,7 +169,9 @@ proof is saved in `reports/observability_demo.json`.
 
 `render.yaml` defines a Render Blueprint for a Python web service, managed
 Postgres, managed Key Value cache, generated staging `API_KEY`, and `/health`
-checks. Deploy instructions are in `docs/render_deployment.md`.
+checks. The staging service is verified at
+`https://cloud-infra-lab-api.onrender.com`. Deploy instructions are in
+`docs/render_deployment.md`.
 
 After a Render URL exists, verify it with:
 
@@ -161,7 +180,7 @@ python scripts/staging_smoke.py --base-url https://YOUR-SERVICE.onrender.com --a
 python scripts/staging_load_test.py --base-url https://YOUR-SERVICE.onrender.com --api-key YOUR_API_KEY --requests 50 --concurrency 5
 ```
 
-Expected staging evidence:
+Saved staging evidence:
 
 - `reports/render_staging_smoke.json`
 - `reports/render_load_test.json`
@@ -182,6 +201,6 @@ workflow, real GitHub Actions operations-data ingestion, latency measurement
 reports, optional API-key guarding, request-scoped structured logging, CI
 security/dependency checks, Terraform planning, and runbook documentation.
 
-Current scope: local, reproducible platform lab with Render deployment
-configuration prepared. Production-user, uptime, hosted-traffic, and staging
-load claims require a deployed Render URL and saved verification evidence.
+Current scope: reproducible platform lab with local Docker evidence and a
+deployed Render staging environment. Production-user, uptime, and sustained-load
+claims require monitoring data beyond the saved bounded staging checks.

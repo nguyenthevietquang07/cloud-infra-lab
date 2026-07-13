@@ -1,6 +1,7 @@
 # Render Staging Deployment
 
-This project is prepared for a Render Blueprint deployment. The goal is a
+This project is prepared for a Render Blueprint deployment and has a verified
+staging service at `https://cloud-infra-lab-api.onrender.com`. The goal is a
 repeatable staging service with managed Postgres, managed Key Value cache,
 health checks, API-key protection, and saved verification artifacts.
 
@@ -47,7 +48,7 @@ Expected artifacts:
 
 ## Launch Gate
 
-The launch gaps remain open until both of these are true:
+The staging launch gaps are resolved when both of these are true:
 
 - a real Render staging URL is saved in the smoke/load reports;
 - both staging verification scripts pass against that deployed URL.

@@ -1,0 +1,31 @@
+{
+  "base_url": "https://cloud-infra-lab-api.onrender.com",
+  "checks": {
+    "all_responses_accepted": true,
+    "error_rate_within_threshold": true,
+    "minimum_sample_size": true,
+    "p95_latency_within_threshold": true
+  },
+  "claim_boundary": "This bounded test validates staging responsiveness for a small client-style burst. It is not a substitute for sustained production monitoring.",
+  "concurrency": 5,
+  "duration_seconds": 3.978,
+  "error_count": 0,
+  "error_rate": 0.0,
+  "latency_ms": {
+    "max": 735.772,
+    "mean": 380.271,
+    "min": 291.748,
+    "p50": 351.109,
+    "p95": 586.66
+  },
+  "passed": true,
+  "project": "cloud-infra-lab",
+  "requests": 50,
+  "stage": "render_staging_load_test",
+  "success_count": 50,
+  "thresholds": {
+    "max_error_rate": 0.0,
+    "max_p95_ms": 2000.0,
+    "min_requests": 30
+  }
+}
