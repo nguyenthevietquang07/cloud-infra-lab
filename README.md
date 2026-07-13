@@ -18,6 +18,7 @@ measured behavior, and documentation that another engineer could use.
 - Python API service with FastAPI-compatible entrypoint
 - Typed request and response schemas with Pydantic
 - Job storage boundary with in-memory and SQLite implementations
+- Redis-backed job status cache boundary
 - Event normalization for public GitHub Actions workflow metadata
 - Postgres schema for request and audit records
 - Redis-style cache boundary
@@ -120,9 +121,9 @@ python scripts/docker_smoke.py
 `reports/runtime_api_demo.json`.
 
 `scripts/docker_smoke.py` starts Docker Compose in detached mode, verifies the
-API health endpoint, creates a job, restarts the API container, fetches the same
-job back from Postgres, writes `reports/docker_smoke.json`, and tears the stack
-down.
+API health endpoint, creates a job, confirms Redis-backed status caching,
+restarts the API container, fetches the same job back from Postgres and Redis,
+writes `reports/docker_smoke.json`, and tears the stack down.
 
 ## Documentation
 

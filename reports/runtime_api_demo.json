@@ -63,7 +63,7 @@
     "health": {
       "checks": {
         "api": "ok",
-        "cache": "configured",
+        "cache": "ok",
         "database": "configured"
       },
       "service": "cloud-infra-lab",

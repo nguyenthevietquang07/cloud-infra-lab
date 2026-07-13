@@ -45,3 +45,9 @@ class JobResponse(BaseModel):
     created_at: str
     updated_at: str
     error: str | None = None
+
+
+class JobStatusResponse(BaseModel):
+    id: str
+    status: str
+    source: str

@@ -1,14 +1,19 @@
 {
   "base_url": "http://127.0.0.1:8000",
+  "cached_status_source_after_restart": "cache",
   "checks": {
+    "cached_status_matches_job": true,
     "compose_started": true,
     "health_after_restart": true,
     "health_before_restart": true,
     "job_created": true,
     "job_persisted_after_api_restart": true,
-    "postgres_configured": true
+    "postgres_configured": true,
+    "redis_configured": true,
+    "status_cached_after_restart": true,
+    "status_cached_before_restart": true
   },
-  "claim_boundary": "Docker smoke verifies local Compose wiring and Postgres-backed job persistence only; it is not hosted uptime or production load evidence.",
+  "claim_boundary": "Docker smoke verifies local Compose wiring, Postgres-backed job persistence, and Redis-backed status caching only; it is not hosted uptime or production load evidence.",
   "cleanup": {
     "command": "docker compose down -v",
     "returncode": 0

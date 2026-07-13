@@ -8,12 +8,12 @@ from app.service import build_health_payload, normalize_event
 
 class ServiceTests(unittest.TestCase):
     def test_health_payload_has_operational_checks(self):
-        payload = build_health_payload("demo")
+        payload = build_health_payload("demo", cache_status="ok")
 
         self.assertEqual(payload["status"], "ok")
         self.assertEqual(payload["service"], "demo")
         self.assertIn("database", payload["checks"])
-        self.assertIn("cache", payload["checks"])
+        self.assertEqual(payload["checks"]["cache"], "ok")
 
     def test_event_normalization_is_deterministic(self):
         payload = normalize_event({"event_type": " Deploy ", "source": " CI "})

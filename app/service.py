@@ -3,15 +3,15 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 
-def build_health_payload(service_name: str) -> dict[str, object]:
+def build_health_payload(service_name: str, database_status: str = "configured", cache_status: str = "configured") -> dict[str, object]:
     return {
         "service": service_name,
         "status": "ok",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "checks": {
             "api": "ok",
-            "database": "configured",
-            "cache": "configured",
+            "database": database_status,
+            "cache": cache_status,
         },
     }
 

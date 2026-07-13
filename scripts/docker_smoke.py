@@ -56,8 +56,9 @@ def run_docker_smoke(keep_running: bool = False) -> dict[str, object]:
         "stage": "docker_compose_postgres_smoke",
         "base_url": BASE_URL,
         "claim_boundary": (
-            "Docker smoke verifies local Compose wiring and Postgres-backed job "
-            "persistence only; it is not hosted uptime or production load evidence."
+            "Docker smoke verifies local Compose wiring, Postgres-backed job "
+            "persistence, and Redis-backed status caching only; it is not hosted "
+            "uptime or production load evidence."
         ),
     }
     try:
@@ -71,11 +72,13 @@ def run_docker_smoke(keep_running: bool = False) -> dict[str, object]:
             "/jobs",
             {"kind": "docker smoke", "source": "docker_smoke", "payload": {"persistent": True}},
         )
+        cached_before_restart = request_json("GET", f"/jobs/{created_job['id']}/status")
         restart = run_compose(["restart", "api"], project_root, timeout=90)
         if restart.returncode != 0:
             raise RuntimeError(f"docker compose restart api failed: {restart.stderr.strip()}")
         second_health = wait_for_health()
         fetched_job = request_json("GET", f"/jobs/{created_job['id']}")
+        cached_after_restart = request_json("GET", f"/jobs/{created_job['id']}/status")
         checks = {
             "compose_started": True,
             "health_before_restart": first_health["status"] == "ok",
@@ -83,11 +86,16 @@ def run_docker_smoke(keep_running: bool = False) -> dict[str, object]:
             "job_created": bool(created_job.get("id")),
             "job_persisted_after_api_restart": fetched_job["id"] == created_job["id"],
             "postgres_configured": first_health.get("checks", {}).get("database") == "configured",
+            "redis_configured": first_health.get("checks", {}).get("cache") == "ok",
+            "status_cached_before_restart": cached_before_restart["source"] == "cache",
+            "status_cached_after_restart": cached_after_restart["source"] == "cache",
+            "cached_status_matches_job": cached_after_restart["status"] == fetched_job["status"],
         }
         report.update(
             {
                 "checks": checks,
                 "created_job_id": "<created_job_id>",
+                "cached_status_source_after_restart": cached_after_restart["source"],
                 "persisted_status": fetched_job["status"],
                 "passed": all(checks.values()),
             }
