@@ -7,30 +7,30 @@
   },
   "measurements": {
     "event_ingest_latency": {
-      "count": 2.0,
-      "max_ms": 16.6326,
-      "mean_ms": 14.6652,
-      "p50_ms": 12.6978,
-      "p95_ms": 16.6326
+      "count": 5.0,
+      "max_ms": 18.105,
+      "mean_ms": 8.5275,
+      "p50_ms": 4.457,
+      "p95_ms": 18.105
     },
     "job_create_latency": {
-      "count": 2.0,
-      "max_ms": 14.2016,
-      "mean_ms": 9.813,
-      "p50_ms": 5.4244,
-      "p95_ms": 14.2016
+      "count": 5.0,
+      "max_ms": 18.9532,
+      "mean_ms": 11.3116,
+      "p50_ms": 15.8463,
+      "p95_ms": 18.9532
     },
     "job_fetch_latency": {
-      "count": 2.0,
-      "max_ms": 13.561,
-      "mean_ms": 8.4729,
-      "p50_ms": 3.3848,
-      "p95_ms": 13.561
+      "count": 5.0,
+      "max_ms": 23.6769,
+      "mean_ms": 9.6384,
+      "p50_ms": 3.5262,
+      "p95_ms": 23.6769
     }
   },
-  "operation_count": 6,
+  "operation_count": 15,
   "passion_project_note": "Built to practice production-style observability and job-processing flows with real CI/CD operations data before deploying paid infrastructure.",
   "pipeline": "real_ops_event_pipeline",
-  "processed_runs": 2,
+  "processed_runs": 5,
   "project": "cloud-infra-lab"
 }

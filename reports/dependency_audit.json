@@ -1,0 +1,13 @@
+{
+  "audited_dependency_count": 18,
+  "claim_boundary": "Dependency audit checks pinned Python runtime dependencies with pip-audit. It does not cover OS image CVEs, container registry scans, or transitive risk outside the Python package ecosystem.",
+  "generated_at": "2026-07-13T07:20:23.507980+00:00",
+  "passed": true,
+  "project": "cloud-infra-lab",
+  "requirements_file": "requirements.txt",
+  "stage": "dependency_audit",
+  "stderr": "No known vulnerabilities found",
+  "tool": "pip-audit",
+  "vulnerability_count": 0,
+  "vulnerable_dependencies": []
+}

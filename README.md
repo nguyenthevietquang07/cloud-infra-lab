@@ -19,6 +19,7 @@ measured behavior, and documentation that another engineer could use.
 - Typed request and response schemas with Pydantic
 - Job storage boundary with in-memory and SQLite implementations
 - Redis-backed job status cache boundary
+- Optional API-key guard for staging deployments
 - Event normalization for public GitHub Actions workflow metadata
 - Postgres schema for request and audit records
 - Redis-style cache boundary
@@ -33,7 +34,7 @@ measured behavior, and documentation that another engineer could use.
 | API | Python, FastAPI, Uvicorn, Pydantic |
 | Data | SQLite boundary, Postgres schema, Redis-style cache boundary |
 | Infrastructure | Docker, Docker Compose, Terraform skeleton |
-| Quality | unittest, runtime API demo, load-test script, GitHub Actions |
+| Quality | unittest, runtime API demo, security audit, dependency audit, load-test script, GitHub Actions |
 | Operations | health checks, runbook, structured JSON report artifacts |
 
 ## Demo Flow
@@ -78,12 +79,12 @@ Latest measured report: `reports/real_ops_pipeline.json`.
 | Measurement | Value |
 |---|---:|
 | Source | GitHub Actions workflow runs |
-| Workflow runs processed | 2 |
-| API operations measured | 6 |
-| Event ingest mean latency | 14.6652 ms |
-| Job create mean latency | 9.8130 ms |
-| Job fetch mean latency | 8.4729 ms |
-| Event ingest p95 latency | 16.6326 ms |
+| Workflow runs processed | 5 |
+| API operations measured | 15 |
+| Event ingest mean latency | 8.5275 ms |
+| Job create mean latency | 11.3116 ms |
+| Job fetch mean latency | 9.6384 ms |
+| Event ingest p95 latency | 18.1050 ms |
 
 These measurements validate local API processing of public CI/CD metadata. The
 next evidence step is a deployed environment with saved monitoring data for
@@ -101,6 +102,14 @@ Run the test suite:
 
 ```bash
 python -m unittest discover -s tests
+```
+
+Run the security and dependency checks:
+
+```bash
+python -m pip install -r requirements-dev.txt
+python scripts/security_checklist.py
+python scripts/dependency_audit.py
 ```
 
 Run the local API demo and data pipeline:
@@ -130,13 +139,15 @@ writes `reports/docker_smoke.json`, and tears the stack down.
 - `docs/runbook.md`: operational runbook and troubleshooting notes
 - `docs/real_data_pipeline.md`: source, measurement method, and claim boundary
 - `docs/agile_backlog.md`: prioritized backlog and delivery plan
+- `docs/security.md`: security baseline, dependency audit, and claim boundary
 
 ## Portfolio Positioning
 
 Built a cloud infrastructure lab with a containerized API, Postgres/Redis local
 stack, health-check endpoints, job/status workflow, real GitHub Actions
-operations-data ingestion, latency measurement reports, CI tests, Terraform
-planning, and runbook documentation.
+operations-data ingestion, latency measurement reports, optional API-key
+guarding, CI security/dependency checks, Terraform planning, and runbook
+documentation.
 
 Current scope: local, reproducible platform lab. Production-user, uptime, and
 hosted-traffic claims require a deployed environment and saved monitoring

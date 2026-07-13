@@ -3,11 +3,13 @@ from __future__ import annotations
 import os
 
 from fastapi import FastAPI
+from fastapi import Depends
 from fastapi import HTTPException
 
 from .job_store import build_job_store
 from .jobs import serialize_job
 from .schemas import EventPayload, EventResponse, HealthResponse, JobCreateRequest, JobResponse, JobStatusResponse
+from .security import require_api_key
 from .service import build_health_payload, normalize_event
 from .status_cache import build_status_cache
 
@@ -22,12 +24,12 @@ def health() -> dict[str, object]:
     return build_health_payload(service_name="cloud-infra-lab", cache_status=cache_status)
 
 
-@app.post("/events", response_model=EventResponse)
+@app.post("/events", response_model=EventResponse, dependencies=[Depends(require_api_key)])
 def ingest_event(payload: EventPayload) -> dict[str, object]:
     return normalize_event(payload.model_dump())
 
 
-@app.post("/jobs", response_model=JobResponse)
+@app.post("/jobs", response_model=JobResponse, dependencies=[Depends(require_api_key)])
 def create_job(payload: JobCreateRequest) -> dict[str, object]:
     request_payload = payload.model_dump()
     job = job_store.create(kind=payload.kind, payload=request_payload)
@@ -35,7 +37,7 @@ def create_job(payload: JobCreateRequest) -> dict[str, object]:
     return serialize_job(job)
 
 
-@app.get("/jobs/{job_id}", response_model=JobResponse)
+@app.get("/jobs/{job_id}", response_model=JobResponse, dependencies=[Depends(require_api_key)])
 def get_job(job_id: str) -> dict[str, object]:
     job = job_store.get(job_id)
     if job is None:
@@ -46,7 +48,7 @@ def get_job(job_id: str) -> dict[str, object]:
     return serialize_job(job)
 
 
-@app.get("/jobs/{job_id}/status", response_model=JobStatusResponse)
+@app.get("/jobs/{job_id}/status", response_model=JobStatusResponse, dependencies=[Depends(require_api_key)])
 def get_job_status(job_id: str) -> dict[str, object]:
     cached_status = status_cache.get_job_status(job_id)
     if cached_status is not None:

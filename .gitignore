@@ -12,3 +12,5 @@ reports/*
 !reports/runtime_api_demo.json
 !reports/real_ops_pipeline.json
 !reports/docker_smoke.json
+!reports/security_checklist.json
+!reports/dependency_audit.json

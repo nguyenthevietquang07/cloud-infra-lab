@@ -1,0 +1,31 @@
+{
+  "checks": {
+    "docker_non_root": {
+      "details": "Dockerfile switches away from root before starting Uvicorn.",
+      "passed": true
+    },
+    "gitignore_sensitive_outputs": {
+      "missing": [],
+      "passed": true
+    },
+    "optional_api_key_guard": {
+      "boundary": "API key enforcement is optional for local demos and active when API_KEY is configured.",
+      "missing_protection": [],
+      "passed": true
+    },
+    "pinned_runtime_dependencies": {
+      "dependency_count": 5,
+      "passed": true,
+      "unpinned": []
+    },
+    "secret_scan": {
+      "findings": [],
+      "passed": true
+    }
+  },
+  "claim_boundary": "Security checklist verifies a staging baseline for this portfolio API. It is not a penetration test, compliance audit, or production threat model.",
+  "generated_at": "2026-07-13T07:19:47.599611+00:00",
+  "passed": true,
+  "project": "cloud-infra-lab",
+  "stage": "security_checklist"
+}
