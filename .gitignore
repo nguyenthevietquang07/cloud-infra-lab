@@ -11,3 +11,4 @@ reports/*
 !reports/demo_run.json
 !reports/runtime_api_demo.json
 !reports/real_ops_pipeline.json
+!reports/docker_smoke.json

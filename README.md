@@ -90,6 +90,12 @@ uptime, production traffic, and client-load measurements.
 
 ## Quickstart
 
+Install dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
 Run the test suite:
 
 ```bash
@@ -106,13 +112,17 @@ python scripts/real_ops_pipeline.py --owner nguyenthevietquang07 --repo cloud-in
 Run with local infrastructure:
 
 ```bash
-docker compose up --build
-python scripts/load_test.py --url http://localhost:8000/health --requests 25
+python scripts/docker_smoke.py
 ```
 
 `scripts/runtime_demo.py` starts the service on `127.0.0.1:8010`, calls
 `/health`, `/events`, and `/jobs`, fetches the created job, and writes
 `reports/runtime_api_demo.json`.
+
+`scripts/docker_smoke.py` starts Docker Compose in detached mode, verifies the
+API health endpoint, creates a job, restarts the API container, fetches the same
+job back from Postgres, writes `reports/docker_smoke.json`, and tears the stack
+down.
 
 ## Documentation
 

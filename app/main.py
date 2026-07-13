@@ -1,15 +1,17 @@
 from __future__ import annotations
 
+import os
+
 from fastapi import FastAPI
 from fastapi import HTTPException
 
-from .job_store import InMemoryJobStore
+from .job_store import build_job_store
 from .jobs import serialize_job
 from .schemas import EventPayload, EventResponse, HealthResponse, JobCreateRequest, JobResponse
 from .service import build_health_payload, normalize_event
 
 app = FastAPI(title="Cloud Infrastructure Lab", version="0.1.0")
-job_store = InMemoryJobStore()
+job_store = build_job_store(os.getenv("DATABASE_URL"))
 
 
 @app.get("/health", response_model=HealthResponse)

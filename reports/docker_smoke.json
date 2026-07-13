@@ -1,0 +1,22 @@
+{
+  "base_url": "http://127.0.0.1:8000",
+  "checks": {
+    "compose_started": true,
+    "health_after_restart": true,
+    "health_before_restart": true,
+    "job_created": true,
+    "job_persisted_after_api_restart": true,
+    "postgres_configured": true
+  },
+  "claim_boundary": "Docker smoke verifies local Compose wiring and Postgres-backed job persistence only; it is not hosted uptime or production load evidence.",
+  "cleanup": {
+    "command": "docker compose down -v",
+    "returncode": 0,
+    "stderr": " Container cloud-infra-lab-api-1  Stopping\n Container cloud-infra-lab-api-1  Stopped\n Container cloud-infra-lab-api-1  Removing\n Container cloud-infra-lab-api-1  Removed\n Container cloud-infra-lab-redis-1  Stopping\n Container cloud-infra-lab-postgres-1  Stopping\n Container cloud-infra-lab-postgres-1  Stopped\n Container cloud-infra-lab-postgres-1  Removing\n Container cloud-infra-lab-postgres-1  Removed\n Container cloud-infra-lab-redis-1  Stopped\n Container cloud-infra-lab-redis-1  Removing\n Container cloud-infra-lab-redis-1  Removed\n Network cloud-infra-lab_default  Removing\n Volume cloud-infra-lab_postgres_data  Removing\n Volume cloud-infra-lab_postgres_data  Removed\n Network cloud-infra-lab_default  Removed\n"
+  },
+  "created_job_id": "012c82e3-324c-4dd1-bd07-6c9bd98d881b",
+  "passed": true,
+  "persisted_status": "queued",
+  "project": "cloud-infra-lab",
+  "stage": "docker_compose_postgres_smoke"
+}
