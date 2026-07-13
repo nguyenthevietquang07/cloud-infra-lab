@@ -20,6 +20,10 @@ def run_pip_audit() -> tuple[int, dict[str, object], str]:
         "requirements.txt",
         "--format",
         "json",
+        "--no-deps",
+        "--disable-pip",
+        "--progress-spinner",
+        "off",
     ]
     completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
     raw_stdout = completed.stdout.strip()
@@ -57,15 +61,16 @@ def normalize(raw: dict[str, object], returncode: int, stderr: str) -> dict[str,
         "stage": "dependency_audit",
         "tool": "pip-audit",
         "requirements_file": "requirements.txt",
+        "dependency_scope": "direct pinned runtime dependencies",
         "audited_dependency_count": audited_dependency_count,
         "vulnerability_count": vulnerability_count,
         "vulnerable_dependencies": vulnerable_dependencies,
         "passed": returncode == 0 and vulnerability_count == 0,
         "stderr": stderr,
         "claim_boundary": (
-            "Dependency audit checks pinned Python runtime dependencies with pip-audit. "
-            "It does not cover OS image CVEs, container registry scans, or transitive "
-            "risk outside the Python package ecosystem."
+            "Dependency audit checks direct pinned Python runtime dependencies with "
+            "pip-audit. It does not cover OS image CVEs, container registry scans, "
+            "or unresolved transitive dependencies."
         ),
     }
 

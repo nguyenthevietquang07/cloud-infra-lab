@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: cloud-infra-lab-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ENVIRONMENT
+        value: staging
+      - key: API_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cloud-infra-lab-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: cloud-infra-lab-cache
+          property: connectionString
+
+  - type: keyvalue
+    name: cloud-infra-lab-cache
+    plan: free
+    ipAllowList: []
+    maxmemoryPolicy: allkeys-lru
+
+databases:
+  - name: cloud-infra-lab-db
+    plan: free
+    databaseName: cloud_infra_lab
+    user: cloud_infra_lab

@@ -1,12 +1,13 @@
 {
-  "audited_dependency_count": 18,
-  "claim_boundary": "Dependency audit checks pinned Python runtime dependencies with pip-audit. It does not cover OS image CVEs, container registry scans, or transitive risk outside the Python package ecosystem.",
-  "generated_at": "2026-07-13T07:51:14.774074+00:00",
+  "audited_dependency_count": 5,
+  "claim_boundary": "Dependency audit checks direct pinned Python runtime dependencies with pip-audit. It does not cover OS image CVEs, container registry scans, or unresolved transitive dependencies.",
+  "dependency_scope": "direct pinned runtime dependencies",
+  "generated_at": "2026-07-13T08:07:46.122501+00:00",
   "passed": true,
   "project": "cloud-infra-lab",
   "requirements_file": "requirements.txt",
   "stage": "dependency_audit",
-  "stderr": "No known vulnerabilities found",
+  "stderr": "WARNING:pip_audit._cli:--no-deps is supported, but users are encouraged to fully hash their pinned dependencies\nWARNING:pip_audit._cli:Consider using a tool like `pip-compile`: https://pip-tools.readthedocs.io/en/latest/#using-hashes\nNo known vulnerabilities found",
   "tool": "pip-audit",
   "vulnerability_count": 0,
   "vulnerable_dependencies": []

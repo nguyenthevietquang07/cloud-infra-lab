@@ -20,6 +20,19 @@ docker compose up --build
   returns `source: cache` after a job is created.
 - Unit tests pass before deployment changes.
 
+## Render staging checks
+
+After a Render Blueprint deploy:
+
+1. Confirm `/health` is healthy from the public `onrender.com` URL.
+2. Confirm the Render service has `API_KEY`, `DATABASE_URL`, and `REDIS_URL`.
+3. Run `python scripts/staging_smoke.py --base-url <url> --api-key <key>`.
+4. Run `python scripts/staging_load_test.py --base-url <url> --api-key <key> --requests 50 --concurrency 5`.
+5. Save `reports/render_staging_smoke.json` and `reports/render_load_test.json`.
+
+Free Render instances can cold-start. If the first request is slow, rerun the
+smoke test after the service is warm and keep the report's latency context.
+
 ## Incident notes
 
 If the API starts but event ingestion fails:

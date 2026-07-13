@@ -25,6 +25,7 @@ measured behavior, and documentation that another engineer could use.
 - Postgres schema for request and audit records
 - Redis-style cache boundary
 - Docker Compose for local service, database, and cache
+- Render Blueprint for staging deployment with managed Postgres and Key Value
 - Terraform skeleton for future cloud deployment planning
 - Runtime demo, load-test script, runbook, and GitHub Actions CI
 
@@ -34,7 +35,7 @@ measured behavior, and documentation that another engineer could use.
 |---|---|
 | API | Python, FastAPI, Uvicorn, Pydantic |
 | Data | SQLite boundary, Postgres schema, Redis-style cache boundary |
-| Infrastructure | Docker, Docker Compose, Terraform skeleton |
+| Infrastructure | Docker, Docker Compose, Render Blueprint, Terraform skeleton |
 | Quality | unittest, runtime API demo, observability demo, security audit, dependency audit, load-test script, GitHub Actions |
 | Operations | health checks, request IDs, structured JSON logs, runbook, JSON report artifacts |
 
@@ -64,6 +65,8 @@ flowchart TB
     API --> Health["Health checks"]
     Compose["Docker Compose"] --> Postgres["Postgres schema"]
     Compose --> Redis["Redis cache boundary"]
+    Render["Render Blueprint"] --> RenderPostgres["Managed Postgres"]
+    Render --> RenderRedis["Managed Key Value"]
     Terraform["Terraform skeleton"] --> Cloud["Future cloud deployment"]
 ```
 
@@ -145,21 +148,40 @@ The API returns an `X-Request-ID` response header and emits structured JSON
 access logs with request ID, method, path, status code, and duration. The local
 proof is saved in `reports/observability_demo.json`.
 
+## Render Staging
+
+`render.yaml` defines a Render Blueprint for a Python web service, managed
+Postgres, managed Key Value cache, generated staging `API_KEY`, and `/health`
+checks. Deploy instructions are in `docs/render_deployment.md`.
+
+After a Render URL exists, verify it with:
+
+```bash
+python scripts/staging_smoke.py --base-url https://YOUR-SERVICE.onrender.com --api-key YOUR_API_KEY
+python scripts/staging_load_test.py --base-url https://YOUR-SERVICE.onrender.com --api-key YOUR_API_KEY --requests 50 --concurrency 5
+```
+
+Expected staging evidence:
+
+- `reports/render_staging_smoke.json`
+- `reports/render_load_test.json`
+
 ## Documentation
 
 - `docs/runbook.md`: operational runbook and troubleshooting notes
 - `docs/real_data_pipeline.md`: source, measurement method, and claim boundary
 - `docs/agile_backlog.md`: prioritized backlog and delivery plan
 - `docs/security.md`: security baseline, dependency audit, and claim boundary
+- `docs/render_deployment.md`: Render Blueprint deployment and staging checks
 
 ## Portfolio Positioning
 
 Built a cloud infrastructure lab with a containerized API, Postgres/Redis local
-stack, health-check endpoints, job/status workflow, real GitHub Actions
-operations-data ingestion, latency measurement reports, optional API-key
-guarding, request-scoped structured logging, CI security/dependency checks,
-Terraform planning, and runbook documentation.
+stack, Render Blueprint staging path, health-check endpoints, job/status
+workflow, real GitHub Actions operations-data ingestion, latency measurement
+reports, optional API-key guarding, request-scoped structured logging, CI
+security/dependency checks, Terraform planning, and runbook documentation.
 
-Current scope: local, reproducible platform lab. Production-user, uptime, and
-hosted-traffic claims require a deployed environment and saved monitoring
-evidence.
+Current scope: local, reproducible platform lab with Render deployment
+configuration prepared. Production-user, uptime, hosted-traffic, and staging
+load claims require a deployed Render URL and saved verification evidence.
