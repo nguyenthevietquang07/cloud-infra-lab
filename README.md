@@ -4,7 +4,7 @@
 
 Backend/platform engineering lab for a small operations API with health checks,
 job workflows, local persistence boundaries, real CI/CD metadata ingestion,
-latency measurement, Docker Compose, Terraform planning, runbooks, and CI.
+latency measurement, Docker Compose, Render staging deployment, runbooks, and CI.
 
 ## Why This Project Exists
 
@@ -26,7 +26,6 @@ measured behavior, and documentation that another engineer could use.
 - Redis-style cache boundary
 - Docker Compose for local service, database, and cache
 - Render Blueprint for staging deployment with managed Postgres and Key Value
-- Terraform skeleton for future cloud deployment planning
 - Runtime demo, load-test script, runbook, and GitHub Actions CI
 
 ## Tech Stack
@@ -35,7 +34,7 @@ measured behavior, and documentation that another engineer could use.
 |---|---|
 | API | Python, FastAPI, Uvicorn, Pydantic |
 | Data | SQLite boundary, Postgres schema, Redis-style cache boundary |
-| Infrastructure | Docker, Docker Compose, Render Blueprint, Terraform skeleton |
+| Infrastructure | Docker, Docker Compose, Render Blueprint |
 | Quality | unittest, runtime API demo, observability demo, security audit, dependency audit, load-test script, GitHub Actions |
 | Operations | health checks, request IDs, structured JSON logs, runbook, JSON report artifacts |
 
@@ -67,7 +66,6 @@ flowchart TB
     Compose --> Redis["Redis cache boundary"]
     Render["Render Blueprint"] --> RenderPostgres["Managed Postgres"]
     Render --> RenderRedis["Managed Key Value"]
-    Terraform["Terraform skeleton"] --> Cloud["Future cloud deployment"]
 ```
 
 ## Measured Evidence
@@ -189,7 +187,7 @@ Saved staging evidence:
 
 - `docs/runbook.md`: operational runbook and troubleshooting notes
 - `docs/real_data_pipeline.md`: source, measurement method, and claim boundary
-- `docs/agile_backlog.md`: prioritized backlog and delivery plan
+- `docs/engineering_quality.md`: completed engineering practices and evidence rules
 - `docs/security.md`: security baseline, dependency audit, and claim boundary
 - `docs/render_deployment.md`: Render Blueprint deployment and staging checks
 
@@ -199,8 +197,8 @@ Built a cloud infrastructure lab with a containerized API, Postgres/Redis local
 stack, Render Blueprint staging path, health-check endpoints, job/status
 workflow, real GitHub Actions operations-data ingestion, latency measurement
 reports, optional API-key guarding, request-scoped structured logging, CI
-security/dependency checks, Terraform planning, and runbook documentation.
+security/dependency checks, Render deployment, and runbook documentation.
 
-Current scope: reproducible platform lab with local Docker evidence and a
-deployed Render staging environment. Production-user, uptime, and sustained-load
-claims require monitoring data beyond the saved bounded staging checks.
+Scope: reproducible platform lab with local Docker evidence and a deployed
+Render staging environment. Production-user, uptime, and sustained-load claims
+require monitoring data beyond the saved bounded staging checks.

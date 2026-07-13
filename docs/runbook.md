@@ -45,7 +45,7 @@ If the API starts but event ingestion fails:
 5. Confirm Redis status cache connectivity through `/health`.
 6. Re-run a small load test after the fix.
 
-## Resume boundary
+## Evidence boundary
 
 This lab proves operational thinking and setup quality. It is not evidence of
-production user traffic unless a deployment and traffic report are added.
+production user traffic without separate production monitoring and usage data.
