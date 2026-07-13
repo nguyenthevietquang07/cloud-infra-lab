@@ -68,6 +68,44 @@ flowchart TB
     Render --> RenderRedis["Managed Key Value"]
 ```
 
+## Recruiter Demo
+
+This demo is designed to show the project as a working backend/platform
+service, not just a code sample. In a short walkthrough, run the local API
+proof, show the hosted staging evidence, then point to the reports that capture
+latency, persistence, observability, and security checks.
+
+```bash
+python scripts/runtime_demo.py
+python scripts/observability_demo.py
+python scripts/security_checklist.py
+python scripts/dependency_audit.py
+python scripts/real_ops_pipeline.py --owner nguyenthevietquang07 --repo cloud-infra-lab --limit 5
+```
+
+What the demo proves:
+
+| Area | Feature | Evidence |
+|---|---|---|
+| API workflow | `/health`, `/events`, `/jobs`, `/jobs/{id}` | `reports/runtime_api_demo.json` |
+| Real ops data | Public GitHub Actions run ingestion | `reports/real_ops_pipeline.json` |
+| Observability | Request IDs, structured JSON access logs | `reports/observability_demo.json` |
+| Security baseline | Optional API key guard, non-root Docker user, secret scan | `reports/security_checklist.json` |
+| Dependency hygiene | Pinned runtime dependencies with audit output | `reports/dependency_audit.json` |
+| Staging deployment | Render service with managed Postgres and Key Value | `reports/render_staging_smoke.json` |
+| Load behavior | 50-request staged burst with concurrency 5 | `reports/render_load_test.json` |
+
+Demo talking points:
+
+- Built a FastAPI service with typed Pydantic schemas, background-style job
+  workflows, persistence boundaries, and health checks.
+- Containerized the API with Postgres and Redis-style status caching for local
+  infrastructure verification.
+- Deployed a Render staging environment and measured smoke/load behavior with
+  saved JSON artifacts.
+- Added QA gates for tests, security checks, dependency audit, request logging,
+  Docker smoke, and CI/CD metadata processing.
+
 ## Measured Evidence
 
 Run the real-data operations pipeline:
