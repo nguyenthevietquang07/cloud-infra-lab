@@ -15,5 +15,6 @@ reports/*
 !reports/security_checklist.json
 !reports/dependency_audit.json
 !reports/observability_demo.json
+!reports/kubernetes_manifest_check.json
 !reports/render_staging_smoke.json
 !reports/render_load_test.json

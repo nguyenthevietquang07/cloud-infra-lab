@@ -26,6 +26,7 @@ measured behavior, and documentation that another engineer could use.
 - Redis-style cache boundary
 - Docker Compose for local service, database, and cache
 - Render Blueprint for staging deployment with managed Postgres and Key Value
+- Kubernetes manifests with health probes, resource bounds, and static validation
 - Runtime demo, load-test script, runbook, and GitHub Actions CI
 
 ## Tech Stack
@@ -34,7 +35,7 @@ measured behavior, and documentation that another engineer could use.
 |---|---|
 | API | Python, FastAPI, Uvicorn, Pydantic |
 | Data | SQLite boundary, Postgres schema, Redis-style cache boundary |
-| Infrastructure | Docker, Docker Compose, Render Blueprint |
+| Infrastructure | Docker, Docker Compose, Render Blueprint, Kubernetes manifests |
 | Quality | unittest, runtime API demo, observability demo, security audit, dependency audit, load-test script, GitHub Actions |
 | Operations | health checks, request IDs, structured JSON logs, runbook, JSON report artifacts |
 
@@ -68,22 +69,23 @@ flowchart TB
     Render --> RenderRedis["Managed Key Value"]
 ```
 
-## Recruiter Demo
+## Project Walkthrough
 
-This demo is designed to show the project as a working backend/platform
-service, not just a code sample. In a short walkthrough, run the local API
-proof, show the hosted staging evidence, then point to the reports that capture
-latency, persistence, observability, and security checks.
+Run these commands to exercise the local API, observability checks, dependency
+and security checks, Kubernetes manifest validation, and CI/CD metadata
+pipeline. The generated reports capture latency, persistence, logging, and
+staging evidence.
 
 ```bash
 python scripts/runtime_demo.py
 python scripts/observability_demo.py
 python scripts/security_checklist.py
 python scripts/dependency_audit.py
+python scripts/kubernetes_manifest_check.py
 python scripts/real_ops_pipeline.py --owner nguyenthevietquang07 --repo cloud-infra-lab --limit 5
 ```
 
-What the demo proves:
+Evidence map:
 
 | Area | Feature | Evidence |
 |---|---|---|
@@ -92,17 +94,17 @@ What the demo proves:
 | Observability | Request IDs, structured JSON access logs | `reports/observability_demo.json` |
 | Security baseline | Optional API key guard, non-root Docker user, secret scan | `reports/security_checklist.json` |
 | Dependency hygiene | Pinned runtime dependencies with audit output | `reports/dependency_audit.json` |
+| Kubernetes readiness | Deployment, Service, health probes, resource bounds | `reports/kubernetes_manifest_check.json` |
 | Staging deployment | Render service with managed Postgres and Key Value | `reports/render_staging_smoke.json` |
 | Load behavior | 50-request staged burst with concurrency 5 | `reports/render_load_test.json` |
 
-Demo talking points:
+Implementation notes:
 
 - Built a FastAPI service with typed Pydantic schemas, background-style job
   workflows, persistence boundaries, and health checks.
 - Containerized the API with Postgres and Redis-style status caching for local
   infrastructure verification.
-- Deployed a Render staging environment and measured smoke/load behavior with
-  saved JSON artifacts.
+- Recorded Render staging smoke/load checks with saved JSON artifacts.
 - Added QA gates for tests, security checks, dependency audit, request logging,
   Docker smoke, and CI/CD metadata processing.
 
@@ -142,7 +144,7 @@ Latest Render staging verification: `reports/render_staging_smoke.json` and
 | Load-test p95 latency | 586.6600 ms |
 | Load-test error rate | 0.0000 |
 
-These staging measurements validate a Render-hosted service, managed Postgres
+These staging measurements record a Render-hosted service, managed Postgres
 persistence, managed Key Value status caching, protected API endpoints, and a
 bounded request burst. They are not uptime, production-user, or sustained-load
 claims.
@@ -173,6 +175,7 @@ Run the security and dependency checks:
 python -m pip install -r requirements-dev.txt
 python scripts/security_checklist.py
 python scripts/dependency_audit.py
+python scripts/kubernetes_manifest_check.py
 ```
 
 Run the local API demo and data pipeline:
@@ -205,7 +208,7 @@ proof is saved in `reports/observability_demo.json`.
 
 `render.yaml` defines a Render Blueprint for a Python web service, managed
 Postgres, managed Key Value cache, generated staging `API_KEY`, and `/health`
-checks. The staging service is verified at
+checks. Saved smoke and load-test artifacts record a staging run against
 `https://cloud-infra-lab-api.onrender.com`. Deploy instructions are in
 `docs/render_deployment.md`.
 
@@ -228,15 +231,11 @@ Saved staging evidence:
 - `docs/engineering_quality.md`: completed engineering practices and evidence rules
 - `docs/security.md`: security baseline, dependency audit, and claim boundary
 - `docs/render_deployment.md`: Render Blueprint deployment and staging checks
+- `docs/kubernetes_local.md`: local Kubernetes manifest validation and rollout path
 
-## Portfolio Positioning
+## Scope
 
-Built a cloud infrastructure lab with a containerized API, Postgres/Redis local
-stack, Render Blueprint staging path, health-check endpoints, job/status
-workflow, real GitHub Actions operations-data ingestion, latency measurement
-reports, optional API-key guarding, request-scoped structured logging, CI
-security/dependency checks, Render deployment, and runbook documentation.
-
-Scope: reproducible platform lab with local Docker evidence and a deployed
-Render staging environment. Production-user, uptime, and sustained-load claims
-require monitoring data beyond the saved bounded staging checks.
+This is a reproducible platform lab with local Docker evidence, Kubernetes
+manifests, CI/CD metadata ingestion, runbook documentation, and saved Render
+staging checks. Production-user, uptime, and sustained-load claims require
+monitoring data beyond the saved bounded staging reports.

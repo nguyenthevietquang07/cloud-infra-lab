@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "has_configmap": true,
+    "has_deployment": true,
+    "has_health_probes": true,
+    "has_namespace": true,
+    "has_resource_bounds": true,
+    "has_secret_template": true,
+    "has_service": true,
+    "uses_local_image": true
+  },
+  "claim_boundary": "This validates manifest structure and expected deployment controls. Cluster apply, rollout, and runtime behavior require a local kind/minikube or managed Kubernetes run.",
+  "document_count": 5,
+  "kinds": [
+    "Namespace",
+    "ConfigMap",
+    "Secret",
+    "Deployment",
+    "Service"
+  ],
+  "manifest": "infra\\kubernetes\\app.yaml",
+  "passed": true
+}

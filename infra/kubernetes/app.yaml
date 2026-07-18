@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cloud-infra-lab
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-infra-lab-config
+  namespace: cloud-infra-lab
+data:
+  JOB_STORE_PATH: "/data/jobs.sqlite3"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloud-infra-lab-api-key
+  namespace: cloud-infra-lab
+type: Opaque
+stringData:
+  API_KEY: "replace-me-for-local-kind"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-infra-lab-api
+  namespace: cloud-infra-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloud-infra-lab-api
+  template:
+    metadata:
+      labels:
+        app: cloud-infra-lab-api
+    spec:
+      containers:
+        - name: api
+          image: cloud-infra-lab:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: cloud-infra-lab-config
+            - secretRef:
+                name: cloud-infra-lab-api-key
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-infra-lab-api
+  namespace: cloud-infra-lab
+spec:
+  type: ClusterIP
+  selector:
+    app: cloud-infra-lab-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000

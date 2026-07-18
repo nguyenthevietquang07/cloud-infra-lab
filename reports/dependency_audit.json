@@ -2,7 +2,7 @@
   "audited_dependency_count": 5,
   "claim_boundary": "Dependency audit checks direct pinned Python runtime dependencies with pip-audit. It does not cover OS image CVEs, container registry scans, or unresolved transitive dependencies.",
   "dependency_scope": "direct pinned runtime dependencies",
-  "generated_at": "2026-07-13T08:07:46.122501+00:00",
+  "generated_at": "2026-07-18T17:19:41.812642+00:00",
   "passed": true,
   "project": "cloud-infra-lab",
   "requirements_file": "requirements.txt",

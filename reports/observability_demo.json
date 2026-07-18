@@ -12,7 +12,7 @@
   "project": "cloud-infra-lab",
   "sample_logs": [
     {
-      "duration_ms": 7.5851,
+      "duration_ms": 5.1677,
       "event": "http_request",
       "method": "GET",
       "path": "/health",
@@ -20,7 +20,7 @@
       "status_code": 200
     },
     {
-      "duration_ms": 2.6046,
+      "duration_ms": 4.1547,
       "event": "http_request",
       "method": "POST",
       "path": "/jobs",
